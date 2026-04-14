@@ -489,9 +489,9 @@ function toggleColorTheme() {
 
 function setColorTheme(theme) {
   if (theme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.setAttribute('data-mode', 'dark');
   } else {
-    document.documentElement.removeAttribute('data-theme');
+    document.documentElement.removeAttribute('data-mode');
   }
   localStorage.setItem(COLOR_THEME_KEY, theme);
   updateToggleButton(theme);

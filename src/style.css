@@ -34,17 +34,17 @@
   --primary-light: #EDE9FE;
   --secondary: #F97316;
   --accent: #FBBF24;
-  --bg: #1C1917;
-  --bg-subtle: #15120F;
-  --surface: #292524;
-  --text: #F5F5F4;
-  --text-muted: #A8A29E;
-  --border: #44403C;
-  --today-bg: #2D1B69;
+  --bg: #FAF5FF;
+  --bg-subtle: #F3E8FF;
+  --surface: #FFFFFF;
+  --text: #3B0764;
+  --text-muted: #7C3AED;
+  --border: #DDD6FE;
+  --today-bg: #EDE9FE;
   --today-border: #7C3AED;
-  --today-number: #C4B5FD;
-  --event-dot: #FBBF24;
-  --item-bg: #3D2D6F;
+  --today-number: #7C3AED;
+  --event-dot: #F97316;
+  --item-bg: #EDE9FE;
 }
 
 
@@ -69,24 +69,43 @@
 }
 
 
-/* === Dark mode === */
-[data-theme="dark"] {
-  --primary: #7C3AED;
-  --primary-dark: #6D28D9;
-  --primary-light: #EDE9FE;
-  --secondary: #F97316;
-  --accent: #FBBF24;
-  --bg: #1C1917;
-  --bg-subtle: #15120F;
-  --surface: #292524;
-  --text: #F5F5F4;
-  --text-muted: #A8A29E;
-  --border: #44403C;
-  --today-bg: #2D1B69;
-  --today-border: #7C3AED;
-  --today-number: #C4B5FD;
-  --event-dot: #FBBF24;
-  --item-bg: #3D2D6F;
+/* === Dark mode – Schéma 1: Důvěra a klid === */
+[data-mode="dark"]:not([data-theme]),
+[data-mode="dark"][data-theme="1"] {
+  --bg: #0F172A;
+  --bg-subtle: #1E293B;
+  --surface: #1E293B;
+  --text: #F1F5F9;
+  --text-muted: #94A3B8;
+  --border: #334155;
+  --today-bg: #1E3A5F;
+  --today-border: #3B82F6;
+  --today-number: #93C5FD;
+  --item-bg: #1E3A5F;
+}
+
+/* === Dark mode – Schéma 2: Energie a kreativita (již tmavé, jen prohloubení) === */
+[data-mode="dark"][data-theme="2"] {
+  --bg: #0C0A09;
+  --bg-subtle: #1C1917;
+  --surface: #1C1917;
+  --text: #FAFAF9;
+  --text-muted: #D6D3D1;
+  --border: #292524;
+}
+
+/* === Dark mode – Schéma 3: Příroda a růst === */
+[data-mode="dark"][data-theme="3"] {
+  --bg: #052E16;
+  --bg-subtle: #14532D;
+  --surface: #14532D;
+  --text: #F0FDF4;
+  --text-muted: #86EFAC;
+  --border: #166534;
+  --today-bg: #14532D;
+  --today-border: #22C55E;
+  --today-number: #4ADE80;
+  --item-bg: #14532D;
 }
 
 
