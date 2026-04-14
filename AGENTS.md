@@ -25,3 +25,9 @@ Projekt nemá package.json, build pipeline ani testovací framework. Stránky se
 - Uchovávej všechny CSS styly v jednom souboru `style.css`
 
 Detailní pravidla pro jednotlivé jazyky jsou v `.github/instructions/`.
+
+
+## Task Management
+* úkoly v projektu jsou uložny v /tasks
+* pokud dokončíš implementaci úkolu, přesuň ho do /tasks/done
+* implementaci napiš stručné poznámky a ulož je jako komplementární soubor do úkolu v /tasks/done, například T-001-prepinatelne-barevne-schema-solution.md
