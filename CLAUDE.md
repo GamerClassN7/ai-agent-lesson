@@ -1,0 +1,1 @@
+instrukci: čti AGENTS.md
