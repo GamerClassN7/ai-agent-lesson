@@ -5,3 +5,4 @@ argument-hint:  Napiš jak mám pracovat.
 user-invocable: true
 model: Gemini 3 Flash (Preview) (copilot)
 tools: [vscode, browser, todo, web, agent, execute, edit, search ]
+---
