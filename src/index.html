@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kalendář s eventy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <h1 class="header__title">Kalendář</h1>
+  </header>
+
+  <main class="main-content">
+    <section class="calendar">
+      <div class="calendar__nav">
+        <button class="calendar__btn" id="prevMonth" aria-label="Předchozí měsíc">&#8249;</button>
+        <h2 class="calendar__month-title" id="monthTitle"></h2>
+        <button class="calendar__btn" id="nextMonth" aria-label="Další měsíc">&#8250;</button>
+      </div>
+
+      <div class="calendar__grid">
+        <div class="calendar__day-name">Po</div>
+        <div class="calendar__day-name">Út</div>
+        <div class="calendar__day-name">St</div>
+        <div class="calendar__day-name">Čt</div>
+        <div class="calendar__day-name">Pá</div>
+        <div class="calendar__day-name calendar__day-name--weekend">So</div>
+        <div class="calendar__day-name calendar__day-name--weekend">Ne</div>
+      </div>
+
+      <div class="calendar__days" id="calendarDays"></div>
+    </section>
+
+    <aside class="event-panel">
+      <h2 class="event-panel__title">Eventy</h2>
+      <ul class="event-panel__list" id="eventList">
+        <li class="event-panel__empty">Vyberte den pro zobrazení eventů.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
