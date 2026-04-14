@@ -289,7 +289,66 @@ body {
 }
 
 
-/* === Panel eventů === */
+/* === Filtr kategorií === */
+.category-filter {
+  margin-bottom: 0.75rem;
+}
+
+.category-filter__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.category-filter__label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--radius);
+  border-left: 3px solid var(--cat-color, var(--border));
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.category-filter__label:hover {
+  background-color: var(--bg-subtle);
+}
+
+.category-filter__label:has(.category-filter__checkbox:not(:checked)) {
+  opacity: 0.45;
+}
+
+.category-filter__checkbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--cat-color);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.category-filter__icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.category-filter__name {
+  font-size: 0.875rem;
+  flex: 1;
+}
+
+.category-filter__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--cat-color, var(--border));
+  flex-shrink: 0;
+}
+
+
+
 .event-panel {
   background-color: var(--surface);
   border: 1px solid var(--border);
