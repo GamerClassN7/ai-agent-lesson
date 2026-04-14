@@ -3,6 +3,7 @@ const CATEGORIES = {
   work:     { label: 'Práce',    color: '#3b82f6', icon: '💼' },
   training: { label: 'Školení',  color: '#8b5cf6', icon: '🎓' },
   personal: { label: 'Osobní',   color: '#10b981', icon: '👤' },
+  golf:     { label: 'Golf',     color: '#84cc16', icon: '⛳' },
 };
 
 const events = {
