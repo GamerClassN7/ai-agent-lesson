@@ -1,4 +1,6 @@
 # ai-agent-lesson
+by @mirekholec
+
 ![alt text](images/calendar-prewiev-2.png)
 
 ## Old Versions
