@@ -376,7 +376,42 @@ body {
 }
 
 
-/* === Filtr kategorií === */
+/* === Vyhledávání eventů === */
+.event-search {
+  margin-bottom: 0.75rem;
+}
+
+.event-search__input {
+  width: 100%;
+  padding: 0.375rem 0.625rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  color: var(--text);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: border-color 0.2s ease, outline-color 0.2s ease;
+}
+
+.event-search__input:focus {
+  border-color: var(--primary);
+  outline-color: var(--primary-light);
+}
+
+.event-search__input::placeholder {
+  color: var(--text-muted);
+}
+
+
+/* === Zvýraznění dní s nalezenými eventy === */
+.calendar__cell--has-match {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+
+
 .category-filter {
   margin-bottom: 0.75rem;
 }

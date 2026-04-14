@@ -36,11 +36,13 @@ let selectedDateKey = null;
 let activeCategories = new Set(Object.keys(CATEGORIES));
 let currentView = localStorage.getItem('calendarView') || 'weekly';
 let currentWeekStart = getMondayOfWeek(new Date());
+let searchQuery = '';
 
 const calendarDays = document.getElementById("calendarDays");
 const monthTitle = document.getElementById("monthTitle");
 const eventList = document.getElementById("eventList");
 const categoryFilter = document.getElementById("categoryFilter");
+const eventSearch = document.getElementById("eventSearch");
 
 function pad(n) {
   return String(n).padStart(2, "0");
@@ -56,6 +58,19 @@ function getMondayOfWeek(date) {
   const diff = d.getDay() === 0 ? -6 : 1 - d.getDay();
   d.setDate(d.getDate() + diff);
   return d;
+}
+
+function getFilteredEvents(key) {
+  return (events[key] || []).filter(ev =>
+    activeCategories.has(ev.category) &&
+    (searchQuery === '' || ev.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+}
+
+function selectDay(key) {
+  selectedDateKey = key;
+  renderCalendar();
+  renderEvents(key);
 }
 
 function renderCategoryFilters() {
@@ -149,8 +164,9 @@ function renderWeekly() {
     number.textContent = day.getDate();
     cell.appendChild(number);
 
-    const visibleEvents = (events[key] || []).filter(ev => activeCategories.has(ev.category));
+    const visibleEvents = getFilteredEvents(key);
     if (visibleEvents.length > 0) {
+      if (searchQuery !== '') cell.classList.add("calendar__cell--has-match");
       const dots = document.createElement("div");
       dots.className = "calendar__event-dots";
       visibleEvents.forEach(ev => {
@@ -202,8 +218,9 @@ function renderMonthly() {
     number.textContent = day;
     cell.appendChild(number);
 
-    const visibleEvents = (events[key] || []).filter(ev => activeCategories.has(ev.category));
+    const visibleEvents = getFilteredEvents(key);
     if (visibleEvents.length > 0) {
+      if (searchQuery !== '') cell.classList.add("calendar__cell--has-match");
       const dots = document.createElement("div");
       dots.className = "calendar__event-dots";
       visibleEvents.forEach(ev => {
@@ -244,15 +261,19 @@ function updateViewButtons() {
 
 function renderEvents(key) {
   eventList.innerHTML = "";
-  const dayEvents = (events[key] || []).filter(ev => activeCategories.has(ev.category));
+  const dayEvents = getFilteredEvents(key);
 
   if (dayEvents.length === 0) {
     const li = document.createElement("li");
     li.className = "event-panel__empty";
-    const hasHiddenEvents = events[key] && events[key].some(ev => !activeCategories.has(ev.category));
-    li.textContent = hasHiddenEvents
-      ? "Žádné eventy pro vybrané kategorie."
-      : "Žádné eventy pro tento den.";
+    const allCategoryEvents = (events[key] || []).filter(ev => activeCategories.has(ev.category));
+    if (searchQuery !== '' && allCategoryEvents.length > 0) {
+      li.textContent = "Žádné eventy neodpovídají hledání.";
+    } else if (events[key] && events[key].some(ev => !activeCategories.has(ev.category))) {
+      li.textContent = "Žádné eventy pro vybrané kategorie.";
+    } else {
+      li.textContent = "Žádné eventy pro tento den.";
+    }
     eventList.appendChild(li);
     return;
   }
@@ -305,6 +326,13 @@ document.getElementById("nextMonth").addEventListener("click", () => {
 // === Přepínač pohledu ===
 document.querySelectorAll('.view-switcher__button').forEach(btn => {
   btn.addEventListener('click', () => setView(btn.dataset.view));
+});
+
+// === Vyhledávání eventů ===
+eventSearch.addEventListener("input", () => {
+  searchQuery = eventSearch.value;
+  renderCalendar();
+  if (selectedDateKey) renderEvents(selectedDateKey);
 });
 
 // Nastav výchozí pohled
