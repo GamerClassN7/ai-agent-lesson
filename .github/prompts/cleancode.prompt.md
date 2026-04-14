@@ -7,4 +7,4 @@ agent: plan
 
 <!-- Tip: Use /create-prompt in chat to generate content with agent assistance -->
 
-Deduplikuj kod, vyčisti ho a zjednoduš ho, pokud to jde, a zkontroluj, že testy odpovídají codebase.
+Navrhni čitelnější kód. Deduplikuj ho, vyčisti a zjednoduš, pokud je to možné. Zkontroluj, že testy odpovídají codebase.
