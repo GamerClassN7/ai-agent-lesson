@@ -138,12 +138,12 @@ body {
 }
 
 .calendar__cell--empty {
-  background-color: var(--bg);
+  background-color: #f1f5f9;
   cursor: default;
 }
 
 .calendar__cell--empty:hover {
-  background-color: var(--bg);
+  background-color: #f1f5f9;
 }
 
 .calendar__cell--today {

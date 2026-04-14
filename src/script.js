@@ -78,6 +78,14 @@ function renderCalendar() {
     cell.addEventListener("click", () => selectDay(key));
     calendarDays.appendChild(cell);
   }
+
+  const totalCells = startOffset + daysInMonth;
+  const endOffset = (7 - (totalCells % 7)) % 7;
+  for (let i = 0; i < endOffset; i++) {
+    const empty = document.createElement("div");
+    empty.className = "calendar__cell calendar__cell--empty";
+    calendarDays.appendChild(empty);
+  }
 }
 
 function selectDay(key) {
