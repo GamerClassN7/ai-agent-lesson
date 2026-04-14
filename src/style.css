@@ -222,6 +222,10 @@ body {
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+.calendar[data-view="weekly"] {
+  align-self: start;
+}
+
 .calendar__nav {
   display: flex;
   align-items: center;
@@ -249,6 +253,35 @@ body {
 
 .calendar__btn:hover {
   background-color: var(--today-bg);
+}
+
+.view-switcher {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.view-switcher__button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.view-switcher__button:hover {
+  background-color: var(--today-bg);
+}
+
+.view-switcher__button--active {
+  background-color: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
 }
 
 .calendar__grid {
@@ -290,12 +323,12 @@ body {
 }
 
 .calendar__cell--empty {
-  background-color: var(--bg-subtle);
+  background-color: var(--bg);
   cursor: default;
 }
 
 .calendar__cell--empty:hover {
-  background-color: var(--bg-subtle);
+  background-color: var(--bg);
 }
 
 .calendar__cell--today {

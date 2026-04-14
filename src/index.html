@@ -22,9 +22,13 @@
   <main class="main-content">
     <section class="calendar">
       <div class="calendar__nav">
-        <button class="calendar__btn" id="prevMonth" aria-label="Předchozí měsíc">&#8249;</button>
+        <button class="calendar__btn" id="prevMonth" aria-label="Předchozí">&#8249;</button>
         <h2 class="calendar__month-title" id="monthTitle"></h2>
-        <button class="calendar__btn" id="nextMonth" aria-label="Další měsíc">&#8250;</button>
+        <div class="view-switcher" role="group" aria-label="Výběr pohledu kalendáře">
+          <button class="view-switcher__button" data-view="weekly" title="Týdenní pohled" aria-label="Týdenní pohled">Týden</button>
+          <button class="view-switcher__button" data-view="monthly" title="Měsíční pohled" aria-label="Měsíční pohled">Měsíc</button>
+        </div>
+        <button class="calendar__btn" id="nextMonth" aria-label="Další">&#8250;</button>
       </div>
 
       <div class="calendar__grid">

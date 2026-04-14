@@ -34,6 +34,8 @@ let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
 let selectedDateKey = null;
 let activeCategories = new Set(Object.keys(CATEGORIES));
+let currentView = localStorage.getItem('calendarView') || 'weekly';
+let currentWeekStart = getMondayOfWeek(new Date());
 
 const calendarDays = document.getElementById("calendarDays");
 const monthTitle = document.getElementById("monthTitle");
@@ -46,6 +48,14 @@ function pad(n) {
 
 function dateKey(year, month, day) {
   return `${year}-${pad(month + 1)}-${pad(day)}`;
+}
+
+function getMondayOfWeek(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDay() === 0 ? -6 : 1 - d.getDay();
+  d.setDate(d.getDate() + diff);
+  return d;
 }
 
 function renderCategoryFilters() {
@@ -104,6 +114,60 @@ function toggleCategory(key) {
 }
 
 function renderCalendar() {
+  if (currentView === 'weekly') {
+    renderWeekly();
+  } else {
+    renderMonthly();
+  }
+}
+
+function renderWeekly() {
+  calendarDays.innerHTML = "";
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(currentWeekStart);
+    day.setDate(currentWeekStart.getDate() + i);
+    days.push(day);
+  }
+  monthTitle.textContent = `Týden ${pad(days[0].getDate())}.${pad(days[0].getMonth()+1)} - ${pad(days[6].getDate())}.${pad(days[6].getMonth()+1)} ${days[0].getFullYear()}`;
+
+  days.forEach(day => {
+    const key = dateKey(day.getFullYear(), day.getMonth(), day.getDate());
+    const cell = document.createElement("div");
+    cell.className = "calendar__cell";
+
+    const isToday =
+      day.getFullYear() === new Date().getFullYear() &&
+      day.getMonth() === new Date().getMonth() &&
+      day.getDate() === new Date().getDate();
+
+    if (isToday) cell.classList.add("calendar__cell--today");
+    if (key === selectedDateKey) cell.classList.add("calendar__cell--selected");
+
+    const number = document.createElement("span");
+    number.className = "calendar__day-number";
+    number.textContent = day.getDate();
+    cell.appendChild(number);
+
+    const visibleEvents = (events[key] || []).filter(ev => activeCategories.has(ev.category));
+    if (visibleEvents.length > 0) {
+      const dots = document.createElement("div");
+      dots.className = "calendar__event-dots";
+      visibleEvents.forEach(ev => {
+        const dot = document.createElement("span");
+        dot.className = "calendar__event-dot";
+        dot.style.setProperty("--dot-color", CATEGORIES[ev.category].color);
+        dots.appendChild(dot);
+      });
+      cell.appendChild(dots);
+    }
+
+    cell.addEventListener("click", () => selectDay(key));
+    calendarDays.appendChild(cell);
+  });
+}
+
+function renderMonthly() {
   calendarDays.innerHTML = "";
   monthTitle.textContent = `${MONTHS_CS[currentMonth]} ${currentYear}`;
 
@@ -164,10 +228,18 @@ function renderCalendar() {
   }
 }
 
-function selectDay(key) {
-  selectedDateKey = key;
+function setView(view) {
+  currentView = view;
+  localStorage.setItem('calendarView', view);
+  document.querySelector('.calendar').dataset.view = view;
   renderCalendar();
-  renderEvents(key);
+  updateViewButtons();
+}
+
+function updateViewButtons() {
+  document.querySelectorAll('.view-switcher__button').forEach(btn => {
+    btn.classList.toggle('view-switcher__button--active', btn.dataset.view === currentView);
+  });
 }
 
 function renderEvents(key) {
@@ -211,16 +283,33 @@ function renderEvents(key) {
 }
 
 document.getElementById("prevMonth").addEventListener("click", () => {
-  if (currentMonth === 0) { currentMonth = 11; currentYear--; }
-  else currentMonth--;
+  if (currentView === 'weekly') {
+    currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+  } else {
+    if (currentMonth === 0) { currentMonth = 11; currentYear--; }
+    else currentMonth--;
+  }
   renderCalendar();
 });
 
 document.getElementById("nextMonth").addEventListener("click", () => {
-  if (currentMonth === 11) { currentMonth = 0; currentYear++; }
-  else currentMonth++;
+  if (currentView === 'weekly') {
+    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+  } else {
+    if (currentMonth === 11) { currentMonth = 0; currentYear++; }
+    else currentMonth++;
+  }
   renderCalendar();
 });
+
+// === Přepínač pohledu ===
+document.querySelectorAll('.view-switcher__button').forEach(btn => {
+  btn.addEventListener('click', () => setView(btn.dataset.view));
+});
+
+// Nastav výchozí pohled
+document.querySelector('.calendar').dataset.view = currentView;
+updateViewButtons();
 
 renderCategoryFilters();
 renderCalendar();
