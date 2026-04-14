@@ -22,13 +22,16 @@
   <main class="main-content">
     <section class="calendar">
       <div class="calendar__nav">
-        <button class="calendar__btn" id="prevMonth" aria-label="Předchozí">&#8249;</button>
+        <div class="calendar__nav-group">
+          <button class="calendar__btn" id="prevMonth" aria-label="Předchozí">&#8249;</button>
+          <button class="calendar__btn calendar__btn--today" id="todayBtn">Dnes</button>
+          <button class="calendar__btn" id="nextMonth" aria-label="Další">&#8250;</button>
+        </div>
         <h2 class="calendar__month-title" id="monthTitle"></h2>
         <div class="view-switcher" role="group" aria-label="Výběr pohledu kalendáře">
           <button class="view-switcher__button" data-view="weekly" title="Týdenní pohled" aria-label="Týdenní pohled">Týden</button>
           <button class="view-switcher__button" data-view="monthly" title="Měsíční pohled" aria-label="Měsíční pohled">Měsíc</button>
         </div>
-        <button class="calendar__btn" id="nextMonth" aria-label="Další">&#8250;</button>
       </div>
 
       <div class="calendar__grid">
@@ -45,11 +48,12 @@
     </section>
 
     <aside class="event-panel">
-      <h2 class="event-panel__title">Eventy</h2>
-      <div class="category-filter" id="categoryFilter"></div>
       <div class="event-search">
-        <input type="search" class="event-search__input" id="eventSearch" placeholder="Hledat eventy…" aria-label="Hledat eventy">
+        <input type="search" class="event-search__input" id="eventSearch" placeholder="Hledat eventy v kalendáři…" aria-label="Hledat eventy" autocomplete="off">
+        <div class="event-search__results" id="searchResults" hidden></div>
       </div>
+      <h2 class="event-panel__title" id="selectedDateTitle">Eventy</h2>
+      <div class="category-filter" id="categoryFilter"></div>
       <ul class="event-panel__list" id="eventList">
         <li class="event-panel__empty">Vyberte den pro zobrazení eventů.</li>
       </ul>

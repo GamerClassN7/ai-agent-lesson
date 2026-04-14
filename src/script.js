@@ -43,6 +43,8 @@ const monthTitle = document.getElementById("monthTitle");
 const eventList = document.getElementById("eventList");
 const categoryFilter = document.getElementById("categoryFilter");
 const eventSearch = document.getElementById("eventSearch");
+const searchResults = document.getElementById("searchResults");
+const todayBtn = document.getElementById("todayBtn");
 
 function pad(n) {
   return String(n).padStart(2, "0");
@@ -71,6 +73,16 @@ function selectDay(key) {
   selectedDateKey = key;
   renderCalendar();
   renderEvents(key);
+}
+
+function goToToday() {
+  const today = new Date();
+  currentYear = today.getFullYear();
+  currentMonth = today.getMonth();
+  currentWeekStart = getMondayOfWeek(today);
+  selectedDateKey = dateKey(currentYear, currentMonth, today.getDate());
+  renderCalendar();
+  renderEvents(selectedDateKey);
 }
 
 function renderCategoryFilters() {
@@ -139,9 +151,10 @@ function renderCalendar() {
 function renderWeekly() {
   calendarDays.innerHTML = "";
   const days = [];
+  const start = getMondayOfWeek(new Date(currentWeekStart));
   for (let i = 0; i < 7; i++) {
-    const day = new Date(currentWeekStart);
-    day.setDate(currentWeekStart.getDate() + i);
+    const day = new Date(start);
+    day.setDate(start.getDate() + i);
     days.push(day);
   }
   monthTitle.textContent = `Týden ${pad(days[0].getDate())}.${pad(days[0].getMonth()+1)} - ${pad(days[6].getDate())}.${pad(days[6].getMonth()+1)} ${days[0].getFullYear()}`;
@@ -169,12 +182,22 @@ function renderWeekly() {
       if (searchQuery !== '') cell.classList.add("calendar__cell--has-match");
       const dots = document.createElement("div");
       dots.className = "calendar__event-dots";
-      visibleEvents.forEach(ev => {
-        const dot = document.createElement("span");
-        dot.className = "calendar__event-dot";
-        dot.style.setProperty("--dot-color", CATEGORIES[ev.category].color);
-        dots.appendChild(dot);
+      
+      visibleEvents.slice(0, 3).forEach(ev => {
+        const tag = document.createElement("div");
+        tag.className = "calendar__event-tag";
+        tag.textContent = `${ev.time} ${ev.name}`;
+        tag.style.setProperty("--tag-bg", CATEGORIES[ev.category].color + '33');
+        tag.style.setProperty("--tag-color", CATEGORIES[ev.category].color);
+        dots.appendChild(tag);
       });
+      if (visibleEvents.length > 3) {
+        const more = document.createElement("div");
+        more.className = "calendar__event-tag";
+        more.style.fontSize = "0.6rem";
+        more.textContent = `+${visibleEvents.length - 3} další`;
+        dots.appendChild(more);
+      }
       cell.appendChild(dots);
     }
 
@@ -194,10 +217,20 @@ function renderMonthly() {
   // Monday-first: shift Sunday (0) to position 6
   const startOffset = (firstDay === 0 ? 6 : firstDay - 1);
 
-  for (let i = 0; i < startOffset; i++) {
-    const empty = document.createElement("div");
-    empty.className = "calendar__cell calendar__cell--empty";
-    calendarDays.appendChild(empty);
+  // Previous month days
+  const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+  for (let i = startOffset - 1; i >= 0; i--) {
+    const day = prevMonthLastDay - i;
+    const cell = document.createElement("div");
+    cell.className = "calendar__cell calendar__cell--empty";
+    
+    const number = document.createElement("span");
+    number.className = "calendar__day-number";
+    number.style.opacity = "0.4";
+    number.textContent = day;
+    cell.appendChild(number);
+    
+    calendarDays.appendChild(cell);
   }
 
   for (let day = 1; day <= daysInMonth; day++) {
@@ -223,12 +256,22 @@ function renderMonthly() {
       if (searchQuery !== '') cell.classList.add("calendar__cell--has-match");
       const dots = document.createElement("div");
       dots.className = "calendar__event-dots";
-      visibleEvents.forEach(ev => {
-        const dot = document.createElement("span");
-        dot.className = "calendar__event-dot";
-        dot.style.setProperty("--dot-color", CATEGORIES[ev.category].color);
-        dots.appendChild(dot);
+      
+      visibleEvents.slice(0, 2).forEach(ev => {
+        const tag = document.createElement("div");
+        tag.className = "calendar__event-tag";
+        tag.textContent = ev.name;
+        tag.style.setProperty("--tag-bg", CATEGORIES[ev.category].color + '33');
+        tag.style.setProperty("--tag-color", CATEGORIES[ev.category].color);
+        dots.appendChild(tag);
       });
+      if (visibleEvents.length > 2) {
+        const more = document.createElement("div");
+        more.className = "calendar__event-tag";
+        more.style.fontSize = "0.6rem";
+        more.textContent = `+${visibleEvents.length - 2} další`;
+        dots.appendChild(more);
+      }
       cell.appendChild(dots);
     }
 
@@ -238,10 +281,17 @@ function renderMonthly() {
 
   const totalCells = startOffset + daysInMonth;
   const endOffset = (7 - (totalCells % 7)) % 7;
-  for (let i = 0; i < endOffset; i++) {
-    const empty = document.createElement("div");
-    empty.className = "calendar__cell calendar__cell--empty";
-    calendarDays.appendChild(empty);
+  for (let i = 1; i <= endOffset; i++) {
+    const cell = document.createElement("div");
+    cell.className = "calendar__cell calendar__cell--empty";
+    
+    const number = document.createElement("span");
+    number.className = "calendar__day-number";
+    number.style.opacity = "0.4";
+    number.textContent = i;
+    cell.appendChild(number);
+
+    calendarDays.appendChild(cell);
   }
 }
 
@@ -262,6 +312,14 @@ function updateViewButtons() {
 function renderEvents(key) {
   eventList.innerHTML = "";
   const dayEvents = getFilteredEvents(key);
+  
+  const titleEl = document.getElementById("selectedDateTitle");
+  if (key) {
+    const d = new Date(key);
+    titleEl.textContent = `Eventy – ${d.getDate()}. ${MONTHS_CS[d.getMonth()]}`;
+  } else {
+    titleEl.textContent = "Eventy";
+  }
 
   if (dayEvents.length === 0) {
     const li = document.createElement("li");
@@ -333,6 +391,63 @@ eventSearch.addEventListener("input", () => {
   searchQuery = eventSearch.value;
   renderCalendar();
   if (selectedDateKey) renderEvents(selectedDateKey);
+  renderSearchDropdown();
+});
+
+function renderSearchDropdown() {
+  if (searchQuery.length < 2) {
+    searchResults.hidden = true;
+    return;
+  }
+
+  const matches = [];
+  Object.keys(events).forEach(date => {
+    events[date].forEach(ev => {
+      if (ev.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+        matches.push({ ...ev, date });
+      }
+    });
+  });
+
+  if (matches.length === 0) {
+    searchResults.innerHTML = '<div class="event-search__result-item"><span class="event-search__result-meta">Žádné výsledky</span></div>';
+  } else {
+    searchResults.innerHTML = "";
+    matches.sort((a,b) => a.date.localeCompare(b.date)).slice(0, 5).forEach(match => {
+      const item = document.createElement("div");
+      item.className = "event-search__result-item";
+      
+      const d = new Date(match.date);
+      const dateStr = `${d.getDate()}. ${MONTHS_CS[d.getMonth()]}`;
+      
+      item.innerHTML = `
+        <span class="event-search__result-name">${match.name}</span>
+        <span class="event-search__result-meta">${dateStr} • ${match.time} • ${CATEGORIES[match.category]?.label || ''}</span>
+      `;
+      
+      item.addEventListener("click", () => {
+        const [y, m, day] = match.date.split("-").map(Number);
+        currentYear = y;
+        currentMonth = m - 1;
+        currentWeekStart = getMondayOfWeek(new Date(y, m - 1, day));
+        selectedDateKey = match.date;
+        searchQuery = "";
+        eventSearch.value = "";
+        searchResults.hidden = true;
+        renderCalendar();
+        renderEvents(match.date);
+      });
+      searchResults.appendChild(item);
+    });
+  }
+  searchResults.hidden = false;
+}
+
+// Close dropdown on outside click
+document.addEventListener("click", (e) => {
+  if (!eventSearch.contains(e.target) && !searchResults.contains(e.target)) {
+    searchResults.hidden = true;
+  }
 });
 
 // Nastav výchozí pohled
@@ -341,6 +456,10 @@ updateViewButtons();
 
 renderCategoryFilters();
 renderCalendar();
+
+if (todayBtn) {
+  todayBtn.addEventListener("click", goToToday);
+}
 
 // === Přepínač schémat ===
 const THEME_KEY = 'calendar-theme';
