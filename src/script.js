@@ -1,8 +1,8 @@
 const CATEGORIES = {
-  meeting:  { label: 'Schůzka',  color: '#f59e0b' },
-  work:     { label: 'Práce',    color: '#3b82f6' },
-  training: { label: 'Školení',  color: '#8b5cf6' },
-  personal: { label: 'Osobní',   color: '#10b981' },
+  meeting:  { label: 'Schůzka',  color: '#f59e0b', icon: '🤝' },
+  work:     { label: 'Práce',    color: '#3b82f6', icon: '💼' },
+  training: { label: 'Školení',  color: '#8b5cf6', icon: '🎓' },
+  personal: { label: 'Osobní',   color: '#10b981', icon: '👤' },
 };
 
 const events = {
@@ -49,20 +49,46 @@ function dateKey(year, month, day) {
 
 function renderCategoryFilters() {
   categoryFilter.innerHTML = "";
+  const ul = document.createElement("ul");
+  ul.className = "category-filter__list";
+
   Object.entries(CATEGORIES).forEach(([key, cat]) => {
-    const btn = document.createElement("button");
-    const isActive = activeCategories.has(key);
-    btn.className = "category-filter__btn" + (isActive ? " category-filter__btn--active" : "");
-    btn.setAttribute("aria-pressed", isActive);
-    btn.style.setProperty("--cat-color", cat.color);
+    const li = document.createElement("li");
+    li.className = "category-filter__item";
+
+    const label = document.createElement("label");
+    label.className = "category-filter__label";
+    label.htmlFor = `cat-${key}`;
+    label.style.setProperty("--cat-color", cat.color);
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "category-filter__checkbox";
+    checkbox.id = `cat-${key}`;
+    checkbox.checked = activeCategories.has(key);
+    checkbox.addEventListener("change", () => toggleCategory(key));
+
+    const icon = document.createElement("span");
+    icon.className = "category-filter__icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = cat.icon;
+
+    const name = document.createElement("span");
+    name.className = "category-filter__name";
+    name.textContent = cat.label;
 
     const dot = document.createElement("span");
     dot.className = "category-filter__dot";
-    btn.appendChild(dot);
-    btn.appendChild(document.createTextNode(cat.label));
-    btn.addEventListener("click", () => toggleCategory(key));
-    categoryFilter.appendChild(btn);
+
+    label.appendChild(checkbox);
+    label.appendChild(icon);
+    label.appendChild(name);
+    label.appendChild(dot);
+    li.appendChild(label);
+    ul.appendChild(li);
   });
+
+  categoryFilter.appendChild(ul);
 }
 
 function toggleCategory(key) {
