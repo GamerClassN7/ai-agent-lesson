@@ -241,3 +241,37 @@ document.querySelectorAll('.theme-switcher__btn').forEach(btn => {
 });
 
 setTheme(localStorage.getItem(THEME_KEY) || '1');
+
+// === Přepínač dark/light modu ===
+const COLOR_THEME_KEY = 'colorTheme';
+
+function toggleColorTheme() {
+  const currentTheme = localStorage.getItem(COLOR_THEME_KEY) || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  setColorTheme(newTheme);
+}
+
+function setColorTheme(theme) {
+  if (theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  localStorage.setItem(COLOR_THEME_KEY, theme);
+  updateToggleButton(theme);
+}
+
+function updateToggleButton(theme) {
+  const button = document.querySelector('.theme-toggle__button');
+  if (button) {
+    button.classList.toggle('theme-toggle__button--active', theme === 'dark');
+    button.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+}
+
+// Aplikuj uložený mód při načtení
+const savedColorTheme = localStorage.getItem(COLOR_THEME_KEY) || 'light';
+setColorTheme(savedColorTheme);
+
+// Event listener pro toggle button
+document.querySelector('.theme-toggle__button')?.addEventListener('click', toggleColorTheme);

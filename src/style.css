@@ -69,6 +69,27 @@
 }
 
 
+/* === Dark mode === */
+[data-theme="dark"] {
+  --primary: #7C3AED;
+  --primary-dark: #6D28D9;
+  --primary-light: #EDE9FE;
+  --secondary: #F97316;
+  --accent: #FBBF24;
+  --bg: #1C1917;
+  --bg-subtle: #15120F;
+  --surface: #292524;
+  --text: #F5F5F4;
+  --text-muted: #A8A29E;
+  --border: #44403C;
+  --today-bg: #2D1B69;
+  --today-border: #7C3AED;
+  --today-number: #C4B5FD;
+  --event-dot: #FBBF24;
+  --item-bg: #3D2D6F;
+}
+
+
 /* === Reset === */
 * {
   margin: 0;
@@ -140,6 +161,39 @@ body {
 .theme-switcher__btn[data-theme="1"] { background-color: #2563EB; }
 .theme-switcher__btn[data-theme="2"] { background-color: #7C3AED; }
 .theme-switcher__btn[data-theme="3"] { background-color: #16A34A; }
+
+
+/* === Přepínač dark/light modu === */
+.theme-toggle {
+  position: absolute;
+  left: var(--spacing);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.theme-toggle__button {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius);
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.theme-toggle__button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+.theme-toggle__button--active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.8);
+  outline-color: #ffffff;
+}
 
 
 /* === Layout === */
