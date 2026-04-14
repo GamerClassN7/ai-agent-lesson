@@ -6,5 +6,6 @@ by [@mirekholec](https://github.com/mirekholec)
 ## Old Versions
 ![alt text](images/calendar-prewiev.png)
 
-## Awesome Copilot
-https://github.com/github/awesome-copilot
+## Links
+* https://github.com/github/awesome-copilot (Curated by community)
+* https://github.com/anthropics/skills (Mostly safe - Curated by Anthropic)
