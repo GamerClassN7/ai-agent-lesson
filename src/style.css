@@ -96,12 +96,12 @@
 
 /* === Dark mode – Schéma 3: Příroda a růst === */
 [data-mode="dark"][data-theme="3"] {
-  --bg: #052E16;
-  --bg-subtle: #14532D;
-  --surface: #14532D;
+  --bg: #020D07;
+  --bg-subtle: #071A0F;
+  --surface: #0D2618;
   --text: #F0FDF4;
   --text-muted: #86EFAC;
-  --border: #166534;
+  --border: #14532D;
   --today-bg: #14532D;
   --today-border: #22C55E;
   --today-number: #4ADE80;
@@ -373,8 +373,8 @@ body {
   background-color: rgba(0,0,0,0.02);
 }
 
-[data-theme="dark"] .calendar__cell:nth-child(7n),
-[data-theme="dark"] .calendar__cell:nth-child(7n-1) {
+[data-mode="dark"] .calendar__cell:nth-child(7n),
+[data-mode="dark"] .calendar__cell:nth-child(7n-1) {
   background-color: rgba(255,255,255,0.02);
 }
 
