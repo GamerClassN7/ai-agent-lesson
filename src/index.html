@@ -9,6 +9,11 @@
 <body>
   <header class="header">
     <h1 class="header__title">Kalendář</h1>
+    <div class="theme-switcher" role="group" aria-label="Výběr barevného schématu">
+      <button class="theme-switcher__btn" data-theme="1" title="Schéma 1: Důvěra a klid" aria-label="Schéma 1: Důvěra a klid"></button>
+      <button class="theme-switcher__btn" data-theme="2" title="Schéma 2: Energie a kreativita" aria-label="Schéma 2: Energie a kreativita"></button>
+      <button class="theme-switcher__btn" data-theme="3" title="Schéma 3: Příroda a růst" aria-label="Schéma 3: Příroda a růst"></button>
+    </div>
   </header>
 
   <main class="main-content">
@@ -34,6 +39,7 @@
 
     <aside class="event-panel">
       <h2 class="event-panel__title">Eventy</h2>
+      <div class="category-filter" id="categoryFilter"></div>
       <ul class="event-panel__list" id="eventList">
         <li class="event-panel__empty">Vyberte den pro zobrazení eventů.</li>
       </ul>

@@ -1,19 +1,73 @@
-/* === Proměnné === */
+/* === Konstanty (nezávislé na tématu) === */
 :root {
-  --primary: #3b82f6;
-  --primary-dark: #2563eb;
-  --accent: #f59e0b;
-  --bg: #f8fafc;
-  --surface: #ffffff;
-  --text: #1e293b;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --today-bg: #eff6ff;
-  --today-border: #3b82f6;
-  --event-dot: #f59e0b;
   --radius: 0.5rem;
   --spacing: 1rem;
 }
+
+
+/* === Schéma 1: Důvěra a klid === */
+:root,
+[data-theme="1"] {
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --primary-light: #DBEAFE;
+  --secondary: #10B981;
+  --accent: #F59E0B;
+  --bg: #F8FAFC;
+  --bg-subtle: #F1F5F9;
+  --surface: #FFFFFF;
+  --text: #1E293B;
+  --text-muted: #64748B;
+  --border: #E2E8F0;
+  --today-bg: #EFF6FF;
+  --today-border: #2563EB;
+  --today-number: #2563EB;
+  --event-dot: #F59E0B;
+  --item-bg: #EFF6FF;
+}
+
+
+/* === Schéma 2: Energie a kreativita === */
+[data-theme="2"] {
+  --primary: #7C3AED;
+  --primary-dark: #6D28D9;
+  --primary-light: #EDE9FE;
+  --secondary: #F97316;
+  --accent: #FBBF24;
+  --bg: #1C1917;
+  --bg-subtle: #15120F;
+  --surface: #292524;
+  --text: #F5F5F4;
+  --text-muted: #A8A29E;
+  --border: #44403C;
+  --today-bg: #2D1B69;
+  --today-border: #7C3AED;
+  --today-number: #C4B5FD;
+  --event-dot: #FBBF24;
+  --item-bg: #3D2D6F;
+}
+
+
+/* === Schéma 3: Příroda a růst === */
+[data-theme="3"] {
+  --primary: #16A34A;
+  --primary-dark: #15803D;
+  --primary-light: #DCFCE7;
+  --secondary: #0EA5E9;
+  --accent: #FB923C;
+  --bg: #F0FDF4;
+  --bg-subtle: #DCFCE7;
+  --surface: #FFFFFF;
+  --text: #14532D;
+  --text-muted: #4B7A5F;
+  --border: #BBF7D0;
+  --today-bg: #D1FAE5;
+  --today-border: #16A34A;
+  --today-number: #16A34A;
+  --event-dot: #FB923C;
+  --item-bg: #D1FAE5;
+}
+
 
 /* === Reset === */
 * {
@@ -21,6 +75,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 
 /* === Typografie === */
 body {
@@ -30,7 +85,9 @@ body {
   color: var(--text);
   background-color: var(--bg);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 
 /* === Header === */
 .header {
@@ -38,6 +95,7 @@ body {
   color: #fff;
   padding: 1.25rem var(--spacing);
   text-align: center;
+  position: relative;
 }
 
 .header__title {
@@ -45,6 +103,44 @@ body {
   font-weight: 700;
   letter-spacing: 0.05em;
 }
+
+
+/* === Přepínač schémat === */
+.theme-switcher {
+  position: absolute;
+  right: var(--spacing);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.theme-switcher__btn {
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.theme-switcher__btn:hover {
+  transform: scale(1.2);
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+.theme-switcher__btn--active {
+  outline-color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.theme-switcher__btn[data-theme="1"] { background-color: #2563EB; }
+.theme-switcher__btn[data-theme="2"] { background-color: #7C3AED; }
+.theme-switcher__btn[data-theme="3"] { background-color: #16A34A; }
+
 
 /* === Layout === */
 .main-content {
@@ -62,12 +158,14 @@ body {
   }
 }
 
+
 /* === Kalendář === */
 .calendar {
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .calendar__nav {
@@ -138,12 +236,12 @@ body {
 }
 
 .calendar__cell--empty {
-  background-color: #f1f5f9;
+  background-color: var(--bg-subtle);
   cursor: default;
 }
 
 .calendar__cell--empty:hover {
-  background-color: #f1f5f9;
+  background-color: var(--bg-subtle);
 }
 
 .calendar__cell--today {
@@ -167,7 +265,7 @@ body {
 }
 
 .calendar__cell--today .calendar__day-number {
-  color: var(--primary);
+  color: var(--today-number);
   font-weight: 700;
 }
 
@@ -190,6 +288,7 @@ body {
   flex-shrink: 0;
 }
 
+
 /* === Panel eventů === */
 .event-panel {
   background-color: var(--surface);
@@ -197,6 +296,7 @@ body {
   border-radius: var(--radius);
   padding: var(--spacing);
   align-self: start;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .event-panel__title {
@@ -221,7 +321,7 @@ body {
 }
 
 .event-panel__item {
-  background-color: var(--today-bg);
+  background-color: var(--item-bg);
   border-left: 3px solid var(--primary);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 0.5rem 0.75rem;
