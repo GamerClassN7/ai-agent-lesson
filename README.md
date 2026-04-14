@@ -1,5 +1,5 @@
 # ai-agent-lesson
-by @mirekholec
+by [@mirekholec](https://github.com/mirekholec)
 
 ![alt text](images/calendar-prewiev-2.png)
 
